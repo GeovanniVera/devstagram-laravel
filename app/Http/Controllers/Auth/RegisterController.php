@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -23,7 +24,7 @@ class RegisterController extends Controller
             'username' => Str::slug($request->username)
         ]);
 
-        //validaciones
+        //reglas de validacion
         $rules = [
             'name' => [
                 'required',
@@ -41,6 +42,7 @@ class RegisterController extends Controller
             ],
         ];
 
+        //validamos los datos usando las reglas de validacion
         $request->validate($rules);
 
         //uso de eloquent ORM 
@@ -50,8 +52,9 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
-        //autenticar un usuario
-        auth()->attempt($request->only('email','password','username'));
+
+        //autenticar un usuario guardamos al usuario en la sesion
+        Auth::attempt($request->only('email','password','username'));
         //redireccionar al usuario
         return redirect()->route('posts.index');
     }

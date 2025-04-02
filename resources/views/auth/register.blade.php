@@ -72,7 +72,7 @@
                         focus:outline-indigo-600
                         p-3
                         w-full
-                         @error('username')
+                        @error('username')
                         border-red-600
                         @enderror
                         "
@@ -168,7 +168,9 @@
                         w-full
                         ">
                 </div>
-                        
+                <div class="mb-5">
+                    <input type="checkbox" name="remember" id="remember"> <label for="remember">Mantener mi sesion abierta</label>
+                </div>
                 <div class="mb-5">
                     <input 
                         type="submit"
@@ -185,6 +187,12 @@
                         p-3
                         w-full">
                 </div>
+                <div class="mb-2">
+                    <a class="text-gray-700 text-center " href="{{ route('login') }}">
+                        ¿Ya tienes una cuenta? <span class="text-indigo-600">Inicia Sesiòn</span>
+                    </a>
+                </div>
+                
             </form>
         </div>
     </div>

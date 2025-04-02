@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 
 //Pagina Principal
 Route::get('/', function() {
@@ -15,5 +16,7 @@ Route::post('/login', [LoginController::class, 'store']);
 //Rutas de register
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
-//post
-Route::get('/wall',[PostController::class,'index'])->name('posts.index');
+//post Route Model Binding
+Route::get('/{user:username}',[PostController::class,'index'])->name('posts.index');
+//Logout
+Route::post('/logout', [LogoutController::class, 'store'])->name('logout');

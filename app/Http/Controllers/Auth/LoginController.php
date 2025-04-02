@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -12,13 +13,22 @@ class LoginController extends Controller
     }
 
     public function store(Request $request) {
-        //Validamos datos
+        //Definimos las reglas de validacion
         $rules = [
             'email' => ['required', 'email'],
             'password' => ['required'],
         ];
+        //Valida las reglas
         $request->validate($rules);
 
-        if(auth->attemp($request->only('email','password')));
+        //Verificamos que el correo exista y la contraseña sea correcta
+        if(!Auth::attempt($request->only('email', 'password'),$request->remember)) {
+            return back()->with('message','Credenciales Incorrectas');
+        }
+
+        //redirigimos al usuario si todo salio bien 
+        return redirect()->route('posts.index',['user' => Auth::user()->username]);
     }
+
+    
 }

@@ -8,12 +8,14 @@
         </div>
         <div class="md:w-1/2 lg:w-4/12 bg-white p-6 shadow-xl">
             <form action="/login" method="POST" novalidate>
-
                 <div>
                     <h2 class="font-black text-center text-3xl mb-10">
                         Inicia Sesion
                     </h2>
                 </div>
+                @if (session('message'))
+                    <p class="text-red-600 mb-3 mt-2 text-center ">{{ session('message') }}</p>
+                @endif
                 @csrf
                 <div class="mb-8">
                     <label 
@@ -22,9 +24,6 @@
                         block uppercase 
                         text-gray-500 
                         font-bold
-                        @error('email')
-                            text-red-600
-                        @enderror
                         ">
                         Correo Electronico:
                     </label>
@@ -32,6 +31,7 @@
                         type="email"
                         name="email"
                         id="email"
+                        autofocus
                         placeholder="geovannivera@gmail.com"
                         class="
                         border
@@ -56,9 +56,6 @@
                         block uppercase 
                         text-gray-500 
                         font-bold
-                        @error('email')
-                            text-red-600
-                        @enderror
                         ">
                         Contraseña:
                     </label>
@@ -82,6 +79,9 @@
                     @enderror
                 </div>
                 <div class="mb-5">
+                    <input type="checkbox" name="remember" id="remember"> <label for="remember" class="text-gray-700 text-sm">Mantener mi sesion abierta</label>
+                </div>
+                <div class="mb-5">
                     <input 
                         type="submit"
                         value="Iniciar Sesiòn"
@@ -97,6 +97,9 @@
                         rounded-md
                         w-full">
                 </div>
+                <a class="text-gray-700 text-center" href="{{ route('register') }}">
+                    ¿Aun no tienes una cuenta? <span class="text-indigo-600">Registrate</span>
+                </a>
             </form>
         </div>
     </div>
