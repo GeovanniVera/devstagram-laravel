@@ -30,6 +30,7 @@
                         placeholder="geovannivera@gmail.com"
                         class="
                         border
+                        focus:outline-indigo-600
                         border-gray-500
                         p-3
                         w-full">
@@ -52,6 +53,7 @@
                         class="
                         border
                         border-gray-500
+                        focus:outline-indigo-600
                         p-3
                         w-full">
                 </div>

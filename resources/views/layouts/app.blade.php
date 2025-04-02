@@ -21,7 +21,7 @@
                     Login
                 </a>
                 <a 
-                    href="/register" 
+                    href="{{ route('register') }}" 
                     class="font-bold uppercase text-gray-600 text-sm ">
                     Register
                 </a>

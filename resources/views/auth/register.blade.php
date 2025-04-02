@@ -8,8 +8,9 @@
             <img src="{{ asset('img/registrar.jpg') }}" alt="imagen registro"></img>
         </div>
         <div class="md:w-1/2 lg:w-4/12 bg-white shadow-xl">
-            <form action="" class="p-5">
-
+            <form action="/register" method="POST" class="p-5"  novalidate>
+                <!--token de seguridad csrf-->
+                @csrf 
                 <div>
                     <h2 class="font-black text-center text-3xl mb-10">
                         Registra tu cuenta
@@ -23,7 +24,8 @@
                         class="mb-2 
                         block uppercase 
                         text-gray-500 
-                        font-bold">
+                        font-bold
+                        ">
                         Nombre:
                     </label>
                     <input 
@@ -33,10 +35,22 @@
                         class="
                         border
                         border-gray-500
+                        focus:outline-indigo-600
                         p-3
-                        w-full"
-                        placeholder="Geovanni Benjamin Vera Balcazar">
+                        w-full
+                        @error('name')
+                        border-red-600
+                        @enderror
+                        "
+                        autofocus
+                        placeholder="Geovanni Benjamin Vera Balcazar"
+                        value="{{ old('name') }}"
+                        >
+                    @error('name')
+                        <p class="text-red-600 mt-3">{{ $message }}</p>
+                    @enderror
                 </div>
+
                 <div 
                 class="mb-5">
                     <label 
@@ -55,9 +69,18 @@
                         class="
                         border
                         border-gray-500
+                        focus:outline-indigo-600
                         p-3
-                        w-full"
+                        w-full
+                         @error('username')
+                        border-red-600
+                        @enderror
+                        "
+                        value="{{ old('username') }}"
                         >
+                    @error('username')
+                        <p class="text-red-600 mt-3">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div 
                 class="mb-5">
@@ -76,10 +99,21 @@
                         placeholder="geovannivera@gmail.com"
                         class="
                         border
+                        focus:outline-indigo-600
                         border-gray-500
                         p-3
-                        w-full">
+                        w-full
+                        @error('email')
+                        border-red-600
+                        @enderror
+                        "
+                        value="{{ old('email') }}"
+                        >
+                    @error('email')
+                        <p class="text-red-600 mt-3">{{ $message }}</p>
+                    @enderror
                 </div>
+                
                 <div 
                 class="mb-5">
                     <label 
@@ -99,8 +133,18 @@
                         border
                         border-gray-500
                         p-3
-                        w-full">
+                        focus:outline-indigo-600
+                        w-full
+                        @error('password')
+                        border-red-600
+                        @enderror
+                        "
+                        >
+                        @error('password')
+                            <p class="text-red-600 mt-3">{{ $message }}</p>
+                        @enderror
                 </div>
+                
                 <div 
                 class="mb-5">
                     <label 
@@ -118,10 +162,13 @@
                         placeholder="YouPassword123@"
                         class="
                         border
+                        focus:outline-indigo-600
                         border-gray-500
                         p-3
-                        w-full">
+                        w-full
+                        ">
                 </div>
+                        
                 <div class="mb-5">
                     <input 
                         type="submit"
