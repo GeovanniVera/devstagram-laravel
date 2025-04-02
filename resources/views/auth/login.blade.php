@@ -7,14 +7,14 @@
             <img src="{{ asset('img/login.jpg') }}" alt="imagen inicio de sesion"></img>
         </div>
         <div class="md:w-1/2 lg:w-4/12 bg-white p-6 shadow-xl">
-            <form action="">
+            <form action="/login" method="POST" novalidate>
 
                 <div>
                     <h2 class="font-black text-center text-3xl mb-10">
                         Inicia Sesion
                     </h2>
                 </div>
-                @csrf;
+                @csrf
                 <div class="mb-8">
                     <label 
                         for="email" 
@@ -42,7 +42,8 @@
                         @error('email')
                             border-red-600
                         @enderror
-                        ">
+                        "
+                        value="{{ old('email') }}">
                     @error('email')
                         <p class="text-red-600 mt-3">{{ $message }}</p>
                     @enderror

@@ -11,7 +11,7 @@ Route::get('/', function() {
 });
 //Rutas de login
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/auth', [LoginController::class, 'auth']);
+Route::post('/login', [LoginController::class, 'store']);
 //Rutas de register
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);

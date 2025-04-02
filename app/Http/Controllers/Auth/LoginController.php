@@ -11,7 +11,14 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function auth() {
-        echo "cargando credenciales";
+    public function store(Request $request) {
+        //Validamos datos
+        $rules = [
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ];
+        $request->validate($rules);
+
+        if(auth->attemp($request->only('email','password')));
     }
 }
