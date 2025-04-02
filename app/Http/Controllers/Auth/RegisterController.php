@@ -24,22 +24,35 @@ class RegisterController extends Controller
         ]);
 
         //validaciones
-        $request->validate([
-            'name' => 'required|min:5|max:100',
-            'username' => 'required|min:5|max:30|unique:users',
-            'email' => 'required|min:5|max:80|unique:users|email',
-            'password' => 'required|confirmed|min:6'
-        ]);
+        $rules = [
+            'name' => [
+                'required',
+                'min:5',
+                'max:100',
+                'regex:/^[a-zA-Z\s]+$/'
+            ],
+            'username' => ['required', 'min:5', 'max:30', 'unique:users'],
+            'email' => ['required', 'min:5', 'max:80', 'unique:users', 'email'],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            ],
+        ];
+
+        $request->validate($rules);
 
         //uso de eloquent ORM 
         User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make($request->password) 
+            'password' => Hash::make($request->password)
         ]);
-
+        //autenticar un usuario
+        auth()->attempt($request->only('email','password','username'));
         //redireccionar al usuario
-
+        return redirect()->route('posts.index');
     }
 }

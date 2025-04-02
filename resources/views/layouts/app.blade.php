@@ -16,7 +16,7 @@
             </h1>
             <nav class="flex gap-2 items-center">
                 <a 
-                    href="/" 
+                    href="{{ route('login') }}" 
                     class="font-bold uppercase text-gray-600 text-sm ">
                     Login
                 </a>
