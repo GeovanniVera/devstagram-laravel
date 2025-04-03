@@ -169,9 +169,6 @@
                         ">
                 </div>
                 <div class="mb-5">
-                    <input type="checkbox" name="remember" id="remember"> <label for="remember">Mantener mi sesion abierta</label>
-                </div>
-                <div class="mb-5">
                     <input 
                         type="submit"
                         value="Crear Cuenta"

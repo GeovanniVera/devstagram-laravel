@@ -30,7 +30,6 @@ class RegisterController extends Controller
                 'required',
                 'min:5',
                 'max:100',
-                'regex:/^[a-zA-Z\s]+$/'
             ],
             'username' => ['required', 'min:5', 'max:30', 'unique:users'],
             'email' => ['required', 'min:5', 'max:80', 'unique:users', 'email'],
@@ -38,7 +37,6 @@ class RegisterController extends Controller
                 'required',
                 'confirmed',
                 'min:8',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
             ],
         ];
 
@@ -56,6 +54,6 @@ class RegisterController extends Controller
         //autenticar un usuario guardamos al usuario en la sesion
         Auth::attempt($request->only('email','password','username'));
         //redireccionar al usuario
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index',['user' => Auth::user()->username]);
     }
 }
