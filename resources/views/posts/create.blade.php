@@ -32,7 +32,7 @@
             </form>
         </div>
         <div class="md:w-1/2 px-10 bg-white shadow-xl p-6 mt-10 md:mt-0">
-            <form action="/login" method="POST" novalidate>
+            <form action="{{ route('posts.store') }}" method="POST" novalidate>
                 <div>
                     <h2 class="font-black text-center text-3xl mb-10">
                         Crea tu Post
@@ -100,6 +100,13 @@
                     @error('description')
                         <p class="text-red-600 mt-3">{{ $message }}</p>
                     @enderror
+                </div>
+                <div class="mb-5">
+                    <input 
+                        type="hidden"
+                        name="image"
+                        value="{{ old('image') }}"
+                        >
                 </div>
                 <div class="mb-5">
                     <input 

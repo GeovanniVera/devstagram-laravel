@@ -26,8 +26,15 @@ Route::get('/', function () {
  * Rutas protegidas 
  * */
 Route::middleware('auth')->group(function () {
+    //Posts
     Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
     Route::get('/post/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+    //Procesamiento de imagenes 
     Route::post('/imagenes',[ImagenController::class,'store'])->name('images.store');
+
+    //Logout
+    Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
+    
 });
