@@ -14,8 +14,10 @@ class PostController extends Controller
 
     
     public function index(User $user){
+        $posts = Post::where('user_id', $user->id)->paginate(4);
         return view('dashboard',[
-            'user' => $user
+            'user' => $user,
+            'posts' => $posts,
         ]);
     }
 
@@ -24,23 +26,28 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
+
+        
         $request->validate([
             'title' => 'required|min:3|max:100',
             'description' => 'required|max:1000',
-            'image' => 'required|image|max:2048'
+            'image' => 'required'
         ]);
 
-        //Almacenar el post en la bd
-        Post::create([
+        $request->user()->posts()->create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $request->file('image')->store('posts', 'public'),
-            'user_id' => Auth::user()->id
+            'image' => $request->image,
         ]);
-        //Redireccionar al usuario
+
         return redirect()->route('posts.index', Auth::user()->username)->with('success', 'Post creado correctamente');
     }
 
+    public function show(User $user,Post $post){
+        return view('posts.show',[
+            'post' => $post,
+        ]);
+    }
 
 }
 

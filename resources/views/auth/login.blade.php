@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="md:flex md:justify-center md:gap-4 md:items-center">
+    <div class="md:flex md:justify-center md:gap-4 md:items-center mt-10">
         <div 
         class="md:w-1/2 lg:w-5/12 p-3">
             <img src="{{ asset('img/login.jpg') }}" alt="imagen inicio de sesion"></img>

@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="md:flex md:justify-center md:gap-4 md:items-center">
+    <div class="md:flex md:justify-center md:gap-4 md:items-center mt-10">
         <div 
         class="md:w-1/2 p-3 lg:w-6/12">
             <img src="{{ asset('img/registrar.jpg') }}" alt="imagen registro"></img>
