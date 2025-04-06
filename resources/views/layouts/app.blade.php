@@ -7,6 +7,9 @@
     <title>Devstagram</title>
     @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    
 </head>
 
 <body class="bg-gray-100">
@@ -68,7 +71,7 @@
             @endauth
 
             @guest
-            <nav class="flex gap-2 items-center">
+            <nav class="flex gap-8 items-center">
                 <a 
                     href="{{ route('login') }}" 
                     class="font-bold uppercase text-gray-600 text-sm ">
@@ -92,7 +95,6 @@
     <footer class="text-center p-5 text-gray-500 font-bold mt-5">
         Devstagram - todos los derechos reservados  {{ now()->year }}
     </footer>
-
 </body>
 
 </html>

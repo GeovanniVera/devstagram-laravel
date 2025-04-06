@@ -14,10 +14,12 @@
                 <div class="flex items-center gap-3 mb-4">
                     
                     <div>
-                        <h2 class="font-bold text-gray-800 hover:text-indigo-600 transition-colors cursor-pointer mb-5">
+                        <a 
+                        href="{{ route('posts.index',$post->user) }}"
+                        class="font-bold text-gray-800 hover:text-indigo-600 transition-colors cursor-pointer ">
                             {{ $post->user->username }}
-                        </h2>
-                        <p class="text-xs text-gray-500">
+                        </a>
+                        <p class="text-xs text-gray-500 mt-5">
                             {{ $post->created_at->format('M d, Y') }} • {{ $post->created_at->diffForHumans() }}
                         </p>
                     </div>
@@ -27,6 +29,7 @@
                     {{ $post->description }}
                 </p>
     
+                <!-- Botones de interaccion -->
                 <div class="flex items-center gap-4 text-gray-500">
                     <button class="flex items-center gap-1 hover:text-red-500 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,6 +44,21 @@
                         </svg>
                         <span class="text-sm">{{$post->comments->count()}} comments</span>
                     </button>
+                    @auth
+                        @if ($post->user_id == auth()->user()->id)
+                            <form method="POST" action="{{ route('posts.destroy', $post) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="flex items-center gap-1 hover:text-red-500 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    <span class="text-sm">Eliminar</span>
+                                </button>
+                            </form>
+                            
+                        @endif
+                    @endauth
                 </div>
             </div>
         </article>
@@ -71,24 +89,31 @@
             </form>
             <!-- Lista de Comentarios -->
             <div class="space-y-4">
-                <!-- Comentario -->
-                @foreach($post->comments as $comment)
-                <div class="flex gap-3">
-                    <img 
-                        src="https://i.pravatar.cc/40?img=1" 
-                        alt="User avatar" 
-                        class="h-8 w-8 rounded-full">
-                    <div class="flex-1">
-                        <div class="bg-gray-50 p-3 rounded-lg">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="font-medium text-sm">{{$comment->user->username}}</span>
-                                <span class="text-xs text-gray-400">• {{ $comment->created_at->format('M d, Y') }} • {{ $comment->created_at->diffForHumans() }}</span>
+                @if ($post->comments->count() == 0)
+                    <p class="text-gray-500">No hay comentarios aún.</p>
+                @else
+                    <!-- Comentario -->
+                    @foreach($post->comments as $comment)
+                    <div class="flex gap-3">
+                        <img 
+                            src="https://i.pravatar.cc/40?img=1" 
+                            alt="User avatar" 
+                            class="h-8 w-8 rounded-full">
+                        <div class="flex-1">
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <a href="{{ route('posts.index',$comment->user) }}"  class="font-medium text-sm">
+                                        {{$comment->user->username}}
+                                    </a>
+                                    <span class="text-xs text-gray-400">• {{ $comment->created_at->format('M d, Y') }} • {{ $comment->created_at->diffForHumans() }}</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">{{ $comment->comment }}</p>
                             </div>
-                            <p class="text-gray-600 text-sm">{{ $comment->comment }}</p>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                    @endforeach
+                @endif
+                
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,11 +24,5 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    public function index($post)
-    {
-        $comments = Comment::where('post_id', $post)->get();
-        return view('comments.index', [
-            'comments' => $comments,
-        ]);
-    }
+    
 }

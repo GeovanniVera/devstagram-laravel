@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/post/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('/{user:username}/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     //Comentarios
     Route::post('/posts/{post}', [CommentController::class, 'store'])->name('comments.store');
     //Procesamiento de imagenes 
