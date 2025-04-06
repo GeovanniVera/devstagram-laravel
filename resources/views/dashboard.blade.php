@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Perfil de Usuario -->
-<div class="bg-white shadow-sm">
+<div class="bg-white shadow-sm mt-5">
     <div class="max-w-6xl mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- Avatar -->
