@@ -44,6 +44,13 @@
                     <button class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
                         Mensaje
                     </button>
+                    @auth
+                        @if ($user->id === auth()->user()->id)
+                            <a class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+                                Configura tu perfil
+                            </a>
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
