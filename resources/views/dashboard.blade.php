@@ -64,7 +64,7 @@
             <p class="text-gray-600 text-lg">Aún no hay publicaciones</p>
         </div>
     @else
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach($posts as $post)
                 <a 
                     href="{{ route('posts.show', ['user' => $user->username, 'post' => $post]) }}" 

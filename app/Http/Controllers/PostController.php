@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -25,11 +26,15 @@ class PostController extends Controller
         ]);
     }
 
+    public function create(){
+        return view('posts.create');
+    }
+
     public function store(Request $request){
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|max:2048'
+            'title' => 'required|min:3|max:100',
+            'description' => 'required|min:3|max:255',
+            'image' => 'required'
         ]);
 
 
@@ -52,7 +57,12 @@ class PostController extends Controller
     }
 
     public function destroy(Post $post){
+        Gate::allows('delete', $post);
         $post->delete();
+        $imagePath = public_path('uploads/'.$post->image); 
+        if(File::exists($imagePath)){
+            unlink($imagePath);
+        }
         return redirect()->route('posts.index', Auth::user()->username);
     }
 }
