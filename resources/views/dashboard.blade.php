@@ -46,7 +46,9 @@
                     </button>
                     @auth
                         @if ($user->id === auth()->user()->id)
-                            <a class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+                            <a 
+                                href="{{route('profile.index')}}"
+                                class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
                                 Configura tu perfil
                             </a>
                         @endif
