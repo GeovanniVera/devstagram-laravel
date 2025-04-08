@@ -1,20 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ImagenController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ImagenController;
-use App\Http\Controllers\LikeController;
 
 /**
  * Rutas Sin proteccion
  */
 
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');;
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'store'])->middleware('guest');;
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');;
@@ -28,6 +29,10 @@ Route::get('/', function () {
  * Rutas protegidas 
  * */
 Route::middleware('auth')->group(function () {
+    
+    //Rutas para el perfil
+    Route::get('/update-profile',[ ProfileController::class,'index'])->name('profile.index');
+    Route::post('/update-profile',[ ProfileController::class,'store'])->name('profile.store');
     //Posts
     Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
     Route::get('/post/create', [PostController::class, 'create'])->name('posts.create');
@@ -36,11 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::post('/post/{post}/likes',[LikeController::class,'store'])->name('posts.likes.store');
     Route::delete('/post/{post}/likes',[LikeController::class,'destroy'])->name('posts.likes.destroy');
-
     //Comentarios
     Route::post('/posts/{post}', [CommentController::class, 'store'])->name('comments.store');
     //Procesamiento de imagenes 
     Route::post('/imagenes',[ImagenController::class,'store'])->name('images.store');
+
+    
 
     //Logout
     Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
