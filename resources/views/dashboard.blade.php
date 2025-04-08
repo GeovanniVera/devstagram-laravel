@@ -8,7 +8,7 @@
             <!-- Avatar -->
             <div class="w-32 h-32 lg:w-48 lg:h-48 relative group">
                 <img 
-                    src="{{ asset('img/usuario.svg') }}" 
+                    src="{{ asset('profile/'.$user->image) }}" 
                     alt="{{ $user->username }}" 
                     class="w-full h-full rounded-full border-4 border-white shadow-lg object-cover hover:border-blue-100 transition-all duration-300">
             </div>

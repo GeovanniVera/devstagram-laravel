@@ -23,6 +23,7 @@
             <form 
             action="{{ route('profile.store') }}"
             method="POST"
+            enctype="multipart/form-data"
             class="
                 mt-10
                 "

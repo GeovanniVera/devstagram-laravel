@@ -15,7 +15,7 @@ use App\Http\Controllers\Auth\RegisterController;
  */
 
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');;
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'store'])->middleware('guest');;
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');;
