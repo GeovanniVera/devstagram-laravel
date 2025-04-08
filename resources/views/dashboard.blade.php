@@ -8,7 +8,7 @@
             <!-- Avatar -->
             <div class="w-32 h-32 lg:w-48 lg:h-48 relative group">
                 <img 
-                    src="{{ asset('img/usuario.svg') }}" 
+                    src="{{ asset('profile/'.$user->image) }}" 
                     alt="{{ $user->username }}" 
                     class="w-full h-full rounded-full border-4 border-white shadow-lg object-cover hover:border-blue-100 transition-all duration-300">
             </div>
@@ -46,7 +46,9 @@
                     </button>
                     @auth
                         @if ($user->id === auth()->user()->id)
-                            <a class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+                            <a 
+                                href="{{route('profile.index')}}"
+                                class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
                                 Configura tu perfil
                             </a>
                         @endif
