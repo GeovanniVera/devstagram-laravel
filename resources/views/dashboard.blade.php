@@ -8,39 +8,57 @@
             <!-- Avatar -->
             <div class="w-32 h-32 lg:w-48 lg:h-48 relative group">
                 <img 
-                    src="{{ asset('profile/'.$user->image) }}" 
+                    src="{{ ($user->image && $user->image !== "" ) ? asset('profile/'.$user->image)  : asset('img/usuario.svg') }}" 
                     alt="{{ $user->username }}" 
                     class="w-full h-full rounded-full border-4 border-white shadow-lg object-cover hover:border-blue-100 transition-all duration-300">
             </div>
             
             <!-- Información del usuario -->
             <div class="flex-1 space-y-4 text-center md:text-left">
-                <h1 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">{{ $user->username }}</h1>
+                <h1 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-5">{{ $user->username }}</h1>
                 
                 <!-- Stats -->
                 <div class="flex flex-wrap justify-center md:justify-start gap-6">
                     <div class="bg-gray-50 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <span class="block text-xl font-bold text-blue-600 text-center">{{ $user->posts->count() }}</span>
-                        <span class="text-sm text-gray-600">Publicaciones</span>
+                        <span class="block text-xl font-bold text-blue-600 text-center">{{ $user->postsCount() }}</span>
+                        <span class="text-sm text-gray-600">@choice('Publicaciòn|Publicaciones', $user->postsCount())</span>
                     </div>
+        
                     <button class="bg-gray-50 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <span class="block text-xl font-bold text-gray-800">0</span>
-                        <span class="text-sm text-gray-600">Seguidores</span>
-                    </button>
+                        <span class="block text-xl font-bold text-gray-800">{{ $user->followersCount() }}</span>
+                        <span class="text-sm text-gray-600">@choice('Seguidor|Seguidores',$user->followersCount())</span>
+                    </button>                    
                     <button class="bg-gray-50 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <span class="block text-xl font-bold text-gray-800">0</span>
+                        <span class="block text-xl font-bold text-gray-800">{{ $user->followingsCount() }}</span>
                         <span class="text-sm text-gray-600">Siguiendo</span>
                     </button>
                 </div>
                 
                 <!-- Botones de acción -->
                 <div class="flex gap-4 justify-center md:justify-start">
-                    <button class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Seguir
-                    </button>
+                    @auth
+                        @if (!($user->id === auth()->user()->id))
+                            @if (!$user->checkFollower(auth()->user()))
+                                <form action="{{ route('follower.follow',$user->username) }}" method="post">
+                                    @csrf
+                                    <button class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors flex items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                        </svg>
+                                        Seguir
+                                    </button>
+                                </form>
+                            @else
+                            <form action="{{ route('follower.unfollow',$user->username) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition-colors flex items-center gap-2">                      
+                                    Dejar de seguir
+                                </button>
+                            </form>
+                            @endif
+                        @endif
+                    @endauth
                     <button class="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
                         Mensaje
                     </button>

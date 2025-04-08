@@ -53,11 +53,7 @@ class User extends Authenticatable
      * Relaciones 
      */
 
-    /**
-     * Get the posts associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+
     public function posts(){
         return $this->hasMany(Post::class);
     }
@@ -70,4 +66,41 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
+
+    public function followers(){
+        return $this->belongsToMany(User::class,'followers','user_id','follower_id');
+    }
+
+    public function followings(){
+        return $this->belongsToMany(User::class,'followers','follower_id','user_id');
+    }
+    /**
+     * Post Methods
+     */
+    
+    public function postsCount(){
+        return $this->posts()->count();
+    }
+
+    /**
+     * Followers Methods
+     */
+    
+
+    public function followersCount(){
+        return $this->followers()->count();
+    }
+
+    public function checkFollower(User $user){
+        return $this->followers->contains($user->id);
+    }
+
+    public function followingsCount(){
+        return $this->followings()->count();
+    }
+    
+    public function checkFollowing(User $user){
+        return $this->followings->contains($user->id);
+    }
+    
 }

@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FollowerController;
+use App\Models\Follower;
 
 /**
  * Rutas Sin proteccion
@@ -33,6 +35,11 @@ Route::middleware('auth')->group(function () {
     //Rutas para el perfil
     Route::get('/update-profile',[ ProfileController::class,'index'])->name('profile.index');
     Route::post('/update-profile',[ ProfileController::class,'store'])->name('profile.store');
+
+     //Seguidores
+     Route::post('/{user:username}/follow',[FollowerController::class,'store'])->name('follower.follow');
+     Route::delete('/{user:username}/unfollow',[FollowerController::class,'destroy'])->name('follower.unfollow'); 
+
     //Posts
     Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
     Route::get('/post/create', [PostController::class, 'create'])->name('posts.create');
@@ -45,9 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/{post}', [CommentController::class, 'store'])->name('comments.store');
     //Procesamiento de imagenes 
     Route::post('/imagenes',[ImagenController::class,'store'])->name('images.store');
-
     
-
+   
     //Logout
     Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
     

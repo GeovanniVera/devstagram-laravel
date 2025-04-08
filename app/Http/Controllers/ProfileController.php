@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -34,8 +35,16 @@ class ProfileController extends Controller
             ],
         ]);
 
-        if ($request->image) {
-            //validamos la imagen 
+        if ($request->hasFile('image')) { // Usar hasFile para verificar si se envió un archivo
+
+            $rules = [
+                'image' => 'required|image|max:2048', 
+            ];
+
+            $request->validate($rules);
+
+
+            //validamos la imagen
             $manager = new ImageManager(new Driver());
             $image = $request->file('image');
             $imageName = Str::uuid() . "." . $image->extension();
@@ -43,20 +52,20 @@ class ProfileController extends Controller
             $imageServer->scale(1000, 1000);
             $imageServer->save(public_path('profile') . '/' . $imageName);
 
-            //eliminamos la imagen anterior 
-            if(Auth::user()->image) {
+            //eliminamos la imagen anterior
+            if (Auth::user()->image) {
                 $imagePath = public_path('profile') . '/' . Auth::user()->image;
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
                 }
             }
-        } 
+        }
 
         //Guardamos los datos en la base de datos
 
         $user = User::find(Auth::user()->id);
         $user->username = $request->username;
-        $user->image = $imageName ?? $user->image ?? 'usuario.svg';
+        $user->image = $imageName ?? $user->image ?? '';
         $user->save();
 
         //Redireccionamos al usuario a su perfil
