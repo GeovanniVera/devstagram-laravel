@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\HomeController;
 use App\Models\Follower;
 
 /**
@@ -21,24 +22,23 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'store'])->middleware('guest');;
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');;
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');;
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
 
-Route::get('/', function () {
-    return view('principal');
-});
 
 /**
  * Rutas protegidas 
  * */
 Route::middleware('auth')->group(function () {
     
+    Route::get('/', HomeController::class)->name('home');    
+
     //Rutas para el perfil
     Route::get('/update-profile',[ ProfileController::class,'index'])->name('profile.index');
     Route::post('/update-profile',[ ProfileController::class,'store'])->name('profile.store');
 
-     //Seguidores
-     Route::post('/{user:username}/follow',[FollowerController::class,'store'])->name('follower.follow');
-     Route::delete('/{user:username}/unfollow',[FollowerController::class,'destroy'])->name('follower.unfollow'); 
+    //Seguidores
+    Route::post('/{user:username}/follow',[FollowerController::class,'store'])->name('follower.follow');
+    Route::delete('/{user:username}/unfollow',[FollowerController::class,'destroy'])->name('follower.unfollow'); 
 
     //Posts
     Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
